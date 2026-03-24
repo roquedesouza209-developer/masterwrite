@@ -1,14 +1,27 @@
-# MasterWrite
+# NoteCollab
 
-Built to explore how digital tools can help people write more clearly and effectively.
+A real-time collaborative notes web application that allows users to write, edit, and share notes together.
 
-MasterWrite is a web application designed to improve grammar, punctuation, sentence structure, and vocabulary through guided suggestions.
+## Overview
+NoteCollab focuses on making collaboration seamless by enabling multiple users to work on the same notes in real time.
 
 ## Features
-- Grammar guidance
-- Punctuation correction
-- Sentence improvement suggestions
-- Vocabulary enhancement
+- Real-time note editing  
+- Multi-user collaboration  
+- Shared workspaces  
+- Cloud-based note storage  
+
+## Tech Stack
+- Web application architecture  
+- Real-time systems (planned implementation)  
+
+## Why I Built This
+Most note-taking tools are built for individuals. NoteCollab explores how collaboration can be made more natural and efficient.
 
 ## Status
-Concept and structure created. Further development planned.
+Concept and structure created. Development planned.
+
+## Future Improvements
+- Live cursor tracking  
+- Version history  
+- Commenting system  
