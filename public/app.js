@@ -1,4 +1,5 @@
 const storageKey = "masterwrite-sessions";
+const lessonLanguageKey = "masterwrite-lesson-language";
 
 const modes = {
   everyday: {
@@ -62,7 +63,145 @@ const modes = {
   },
 };
 
+const lessonTracks = {
+  "en-us": {
+    label: "English (America)",
+    bannerText:
+      "American English lessons focus on sentence clarity, punctuation habits, and confident everyday writing.",
+    placeholder:
+      "Type or paste writing for the English (America) lesson track. MasterWrite will review grammar, punctuation, vocabulary, and overall writing quality.",
+    sample:
+      "i enjoy learning english because it helps me share ideas clearly and write with more confidence in school and daily life",
+    vocabulary: [
+      {
+        from: "good",
+        to: "effective",
+        reason: "American English lessons encourage more precise adjectives in formal writing.",
+      },
+      {
+        from: "thing",
+        to: "point",
+        reason: "Specific nouns make explanations sound clearer and more confident.",
+      },
+    ],
+    tip: "Use short, direct sentences first, then strengthen them with more precise vocabulary.",
+  },
+  "en-gb": {
+    label: "English (British)",
+    bannerText:
+      "British English lessons emphasise polished sentence construction, punctuation accuracy, and familiar spelling patterns.",
+    placeholder:
+      "Type or paste writing for the English (British) lesson track. MasterWrite will review grammar, punctuation, vocabulary, and overall writing quality.",
+    sample:
+      "i enjoy learning english because it helps me organise my thoughts and communicate clearly with other people",
+    vocabulary: [
+      {
+        from: "good",
+        to: "strong",
+        reason: "British writing lessons favour clearer evaluation words in essays and reports.",
+      },
+      {
+        from: "show",
+        to: "demonstrate",
+        reason: "More formal verbs help arguments sound better supported.",
+      },
+    ],
+    tip: "Check spelling choices such as organise, analyse, and colour when you want a British tone.",
+  },
+  sw: {
+    label: "Kiswahili",
+    bannerText:
+      "Kiswahili lessons help learners build sentence flow, punctuation awareness, and vocabulary confidence step by step.",
+    placeholder:
+      "Type or paste writing for the Kiswahili lesson track. MasterWrite will review structure, punctuation habits, and writing flow.",
+    sample:
+      "napenda kujifunza kiswahili kwa sababu hunisaidia kueleza mawazo yangu kwa uwazi na kuandika vizuri zaidi",
+    vocabulary: [
+      {
+        from: "vizuri",
+        to: "kwa usahihi",
+        reason: "More exact wording can strengthen a formal Kiswahili explanation.",
+      },
+      {
+        from: "kitu",
+        to: "hoja",
+        reason: "A more specific noun helps the reader understand your point faster.",
+      },
+    ],
+    tip: "Focus on one clear idea in each sentence before adding extra detail.",
+  },
+  es: {
+    label: "Espanol",
+    bannerText:
+      "Espanol lessons support cleaner sentence structure, stronger punctuation habits, and clearer written expression.",
+    placeholder:
+      "Type or paste writing for the Espanol lesson track. MasterWrite will review structure, punctuation habits, and writing flow.",
+    sample:
+      "me gusta aprender espanol porque me ayuda a expresar mis ideas con claridad y escribir con mas confianza",
+    vocabulary: [
+      {
+        from: "bueno",
+        to: "solido",
+        reason: "A more precise adjective can make your explanation sound stronger.",
+      },
+      {
+        from: "cosa",
+        to: "idea",
+        reason: "Specific nouns improve clarity in both everyday and academic writing.",
+      },
+    ],
+    tip: "Write the main point first, then add supporting details in the next sentence.",
+  },
+  fr: {
+    label: "French",
+    bannerText:
+      "French lessons guide learners toward cleaner grammar habits, clearer punctuation, and stronger sentence rhythm.",
+    placeholder:
+      "Type or paste writing for the French lesson track. MasterWrite will review structure, punctuation habits, and writing flow.",
+    sample:
+      "j aime apprendre le francais parce que cela m aide a organiser mes idees et a ecrire avec plus de confiance",
+    vocabulary: [
+      {
+        from: "bon",
+        to: "solide",
+        reason: "A sharper adjective can make your writing sound more deliberate and precise.",
+      },
+      {
+        from: "idee",
+        to: "argument",
+        reason: "Formal contexts benefit from more exact vocabulary choices.",
+      },
+    ],
+    tip: "Keep sentence order simple first, then improve style with stronger vocabulary.",
+  },
+  de: {
+    label: "German (Germany)",
+    bannerText:
+      "German lessons emphasise structured meaning, careful sentence building, and writing that feels organised and clear.",
+    placeholder:
+      "Type or paste writing for the German lesson track. MasterWrite will review structure, punctuation habits, and writing flow.",
+    sample:
+      "ich lerne gern deutsch weil ich damit meine gedanken klarer ausdruecken und bessere saetze schreiben kann",
+    vocabulary: [
+      {
+        from: "gut",
+        to: "praezise",
+        reason: "A more exact adjective can make academic or formal writing stronger.",
+      },
+      {
+        from: "sache",
+        to: "argument",
+        reason: "Specific nouns help readers understand your meaning more quickly.",
+      },
+    ],
+    tip: "Build the sentence around one main idea before extending it with extra clauses.",
+  },
+};
+
 const elements = {
+  languageSelect: document.getElementById("language-select"),
+  heroTrackTitle: document.getElementById("hero-track-title"),
+  heroTrackText: document.getElementById("hero-track-text"),
   modeSelect: document.getElementById("mode-select"),
   modeNote: document.getElementById("mode-note"),
   input: document.getElementById("input-text"),
@@ -82,9 +221,22 @@ const elements = {
   analysisList: document.getElementById("analysis-list"),
   tipsList: document.getElementById("tips-list"),
   historyList: document.getElementById("history-list"),
+  lessonCards: Array.from(document.querySelectorAll(".lesson-card")),
 };
 
 let latestReport = null;
+
+function isEnglishTrack(trackKey) {
+  return trackKey === "en-us" || trackKey === "en-gb";
+}
+
+function getCurrentTrackKey() {
+  return lessonTracks[elements.languageSelect.value] ? elements.languageSelect.value : "en-us";
+}
+
+function getCurrentTrack() {
+  return lessonTracks[getCurrentTrackKey()];
+}
 
 function escapeHtml(value) {
   return value
@@ -104,7 +256,25 @@ function updateCounts() {
 
 function setModeNote() {
   const mode = modes[elements.modeSelect.value];
-  elements.modeNote.textContent = mode.note;
+  const track = getCurrentTrack();
+  elements.modeNote.textContent = `${mode.note} Current lesson track: ${track.label}.`;
+}
+
+function updateLessonCards(trackKey) {
+  elements.lessonCards.forEach((card) => {
+    card.classList.toggle("is-active", card.dataset.language === trackKey);
+  });
+}
+
+function applyLessonTrack() {
+  const trackKey = getCurrentTrackKey();
+  const track = lessonTracks[trackKey];
+  elements.heroTrackTitle.textContent = `Current lesson track: ${track.label}`;
+  elements.heroTrackText.textContent = track.bannerText;
+  elements.input.placeholder = track.placeholder;
+  localStorage.setItem(lessonLanguageKey, trackKey);
+  updateLessonCards(trackKey);
+  setModeNote();
 }
 
 function splitSentences(text) {
@@ -114,7 +284,7 @@ function splitSentences(text) {
     .filter(Boolean);
 }
 
-function improveText(rawText) {
+function improveText(rawText, trackKey) {
   let text = rawText.trim();
   const actions = [];
 
@@ -132,29 +302,31 @@ function improveText(rawText) {
     actions.push("Adjusted spacing around punctuation marks.");
   }
 
-  const normalizedI = text.replace(/\bi\b/g, "I");
-  if (normalizedI !== text) {
-    text = normalizedI;
-    actions.push("Capitalized the pronoun I.");
-  }
+  if (isEnglishTrack(trackKey)) {
+    const normalizedI = text.replace(/\bi\b/g, "I");
+    if (normalizedI !== text) {
+      text = normalizedI;
+      actions.push("Capitalized the pronoun I.");
+    }
 
-  const capitalizedStarts = text.replace(/(^|[.!?]\s+)([a-z])/g, (match, prefix, letter) => {
-    return `${prefix}${letter.toUpperCase()}`;
-  });
-  if (capitalizedStarts !== text) {
-    text = capitalizedStarts;
-    actions.push("Capitalized sentence beginnings.");
-  }
+    const capitalizedStarts = text.replace(/(^|[.!?]\s+)([a-z])/g, (match, prefix, letter) => {
+      return `${prefix}${letter.toUpperCase()}`;
+    });
+    if (capitalizedStarts !== text) {
+      text = capitalizedStarts;
+      actions.push("Capitalized sentence beginnings.");
+    }
 
-  if (text && !/[.!?]$/.test(text)) {
-    text = `${text}.`;
-    actions.push("Added ending punctuation.");
+    if (text && !/[.!?]$/.test(text)) {
+      text = `${text}.`;
+      actions.push("Added ending punctuation.");
+    }
   }
 
   return { text, actions };
 }
 
-function detectIssues(originalText, correctedText) {
+function detectIssues(originalText, correctedText, trackKey) {
   const issues = [];
   const normalizedOriginal = originalText.trim();
 
@@ -166,13 +338,6 @@ function detectIssues(originalText, correctedText) {
     issues.push({
       title: "Sentence opening needs capitalization",
       detail: "The first sentence starts with a lowercase letter.",
-    });
-  }
-
-  if (/\bi\b/.test(normalizedOriginal)) {
-    issues.push({
-      title: "Pronoun capitalization",
-      detail: "The pronoun I should always be capitalized.",
     });
   }
 
@@ -207,21 +372,34 @@ function detectIssues(originalText, correctedText) {
     });
   }
 
+  if (isEnglishTrack(trackKey) && /\bi\b/.test(normalizedOriginal)) {
+    issues.push({
+      title: "Pronoun capitalization",
+      detail: "The pronoun I should always be capitalized.",
+    });
+  }
+
   const transitions = ["however", "therefore", "moreover", "furthermore", "meanwhile"];
-  transitions.forEach((transition) => {
-    const pattern = new RegExp(`\\b${transition}\\b(?!,)`, "i");
-    if (pattern.test(correctedText)) {
-      issues.push({
-        title: `Comma after "${transition}"`,
-        detail: `Consider placing a comma after "${transition}" when it opens a clause.`,
-      });
-    }
-  });
+  if (isEnglishTrack(trackKey)) {
+    transitions.forEach((transition) => {
+      const pattern = new RegExp(`\\b${transition}\\b(?!,)`, "i");
+      if (pattern.test(correctedText)) {
+        issues.push({
+          title: `Comma after "${transition}"`,
+          detail: `Consider placing a comma after "${transition}" when it opens a clause.`,
+        });
+      }
+    });
+  }
 
   return issues;
 }
 
-function buildVocabularySuggestions(text, mode) {
+function buildVocabularySuggestions(text, mode, trackKey) {
+  if (!isEnglishTrack(trackKey)) {
+    return lessonTracks[trackKey].vocabulary;
+  }
+
   const replacements = modes[mode].replacements;
   const suggestions = [];
 
@@ -239,8 +417,9 @@ function buildVocabularySuggestions(text, mode) {
   return suggestions.slice(0, 6);
 }
 
-function buildTips(analysis, issues, vocabulary, mode) {
+function buildTips(analysis, issues, vocabulary, mode, trackKey) {
   const tips = [];
+  const track = lessonTracks[trackKey];
 
   if (analysis.avgSentenceLength > 24) {
     tips.push("Break longer sentences into smaller ideas so the reader can follow your message more easily.");
@@ -261,6 +440,8 @@ function buildTips(analysis, issues, vocabulary, mode) {
   if (vocabulary.length > 0) {
     tips.push(`Review the ${modes[mode].label.toLowerCase()} vocabulary suggestions to sharpen your tone.`);
   }
+
+  tips.push(track.tip);
 
   if (mode === "academic") {
     tips.push("Add transition phrases that connect evidence to conclusions for a more academic flow.");
@@ -394,6 +575,7 @@ function saveSession(report) {
   const sessions = JSON.parse(localStorage.getItem(storageKey) || "[]");
   sessions.unshift({
     id: Date.now(),
+    track: report.trackLabel,
     mode: report.modeLabel,
     score: report.score,
     preview: report.correctedText.slice(0, 130),
@@ -418,11 +600,12 @@ function renderHistory() {
   }
 
   sessions.forEach((session) => {
+    const sessionTrack = session.track || "Lesson";
     const article = document.createElement("article");
     article.className = "history-card";
     article.innerHTML = `
       <div class="history-score">Score ${session.score}</div>
-      <strong>${escapeHtml(session.mode)}</strong>
+      <strong>${escapeHtml(sessionTrack)} - ${escapeHtml(session.mode)}</strong>
       <p>${escapeHtml(session.preview)}...</p>
       <small>${escapeHtml(session.date)}</small>
     `;
@@ -438,15 +621,18 @@ function analyzeText() {
   }
 
   const mode = elements.modeSelect.value;
-  const improved = improveText(originalText);
-  const issues = detectIssues(originalText, improved.text);
-  const vocabulary = buildVocabularySuggestions(improved.text, mode);
+  const trackKey = getCurrentTrackKey();
+  const track = lessonTracks[trackKey];
+  const improved = improveText(originalText, trackKey);
+  const issues = detectIssues(originalText, improved.text, trackKey);
+  const vocabulary = buildVocabularySuggestions(improved.text, mode, trackKey);
   const analysis = analyzeStructure(improved.text);
-  const tips = buildTips(analysis, issues, vocabulary, mode);
+  const tips = buildTips(analysis, issues, vocabulary, mode, trackKey);
   const score = calculateScore(analysis, issues, vocabulary);
   const scoreInfo = describeScore(score);
 
   latestReport = {
+    trackLabel: track.label,
     modeLabel: modes[mode].label,
     score,
     correctedText: improved.text,
@@ -568,7 +754,7 @@ function printReport() {
         </style>
       </head>
       <body>
-        <div class="badge">${escapeHtml(latestReport.modeLabel)} report</div>
+        <div class="badge">${escapeHtml(latestReport.trackLabel)} - ${escapeHtml(latestReport.modeLabel)} report</div>
         <h1>MasterWrite Performance Report</h1>
         <p><strong>Score:</strong> ${latestReport.score} - ${escapeHtml(latestReport.scoreInfo.band)}</p>
         <p>${escapeHtml(latestReport.scoreInfo.summary)}</p>
@@ -614,8 +800,8 @@ function printReport() {
 }
 
 function loadSample() {
-  const mode = elements.modeSelect.value;
-  elements.input.value = modes[mode].sample;
+  const trackKey = getCurrentTrackKey();
+  elements.input.value = trackKey === "en-us" ? modes[elements.modeSelect.value].sample : lessonTracks[trackKey].sample;
   updateCounts();
 }
 
@@ -661,6 +847,13 @@ function clearEditor() {
   elements.pdfButton.disabled = true;
 }
 
+elements.languageSelect.addEventListener("change", applyLessonTrack);
+elements.lessonCards.forEach((card) => {
+  card.addEventListener("click", () => {
+    elements.languageSelect.value = card.dataset.language;
+    applyLessonTrack();
+  });
+});
 elements.modeSelect.addEventListener("change", setModeNote);
 elements.input.addEventListener("input", updateCounts);
 elements.analyzeButton.addEventListener("click", analyzeText);
@@ -668,6 +861,7 @@ elements.sampleButton.addEventListener("click", loadSample);
 elements.clearButton.addEventListener("click", clearEditor);
 elements.pdfButton.addEventListener("click", printReport);
 
-setModeNote();
+elements.languageSelect.value = localStorage.getItem(lessonLanguageKey) || "en-us";
+applyLessonTrack();
 updateCounts();
 renderHistory();
