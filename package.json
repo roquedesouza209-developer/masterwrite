@@ -1,5 +1,10 @@
 {
   "name": "masterwrite",
   "version": "1.0.0",
-  "private": true
+  "private": true,
+  "description": "MasterWrite helps learners sharpen grammar, punctuation, and vocabulary through guided writing analysis.",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  }
 }

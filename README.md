@@ -1,27 +1,35 @@
 # MasterWrite
 
-A web application designed to help users improve grammar, sentence structure, and writing clarity.
+MasterWrite is a lightweight web app MVP that helps learners improve grammar, punctuation, vocabulary, and academic writing confidence.
 
-## Overview
-MasterWrite trains users to write better by providing feedback, corrections, and suggestions to improve their writing.
+## What It Includes
 
-## Features
-- Grammar correction  
-- Sentence structure improvement  
-- Writing suggestions  
-- Vocabulary enhancement  
+- Unlimited writing analysis on the page
+- Grammar and punctuation cleanup
+- Writing modes for everyday, academic, email, and creative drafts
+- Vocabulary upgrade suggestions based on the selected mode
+- Essay analysis with writing metrics
+- Academic-style scoring feedback
+- Printable browser report that can be saved as PDF
+- Local session history stored in the browser
 
-## Tech Stack
-- Web-based application  
-- Language processing concepts  
+## Run It
 
-## Why I Built This
-Clear communication is essential, yet many struggle with writing. MasterWrite aims to make writing improvement structured and accessible.
+```bash
+npm start
+```
 
-## Status
-Concept and structure created. Development planned.
+Then open `http://localhost:3000`.
 
-## Future Improvements
-- AI-powered suggestions  
-- Writing scoring system  
-- Personalized learning feedback  
+## Development
+
+```bash
+npm run dev
+```
+
+This uses Node's built-in watch mode and does not require any external dependencies.
+
+## Notes
+
+- This first version uses client-side heuristic analysis rather than a full AI or NLP backend.
+- The PDF feature opens a print-friendly report that users can save as PDF from the browser print dialog.

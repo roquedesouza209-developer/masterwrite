@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MasterWrite | Grammar, Punctuation, and Writing Coaching</title>
+    <meta
+      name="description"
+      content="MasterWrite helps learners strengthen grammar, punctuation, vocabulary, and academic writing with guided feedback."
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="topbar">
+        <a class="brand" href="#home">
+          <span class="brand-mark">M</span>
+          <span>
+            <strong>MasterWrite</strong>
+            <small>Write clearly. Learn deeply.</small>
+          </span>
+        </a>
+        <nav class="nav">
+          <a href="#features">Features</a>
+          <a href="#studio">Writing Lab</a>
+          <a href="#reports">Reports</a>
+        </nav>
+      </header>
+
+      <main>
+        <section class="hero" id="home">
+          <div class="hero-copy">
+            <p class="eyebrow">Language learning through feedback</p>
+            <h1>Build confident writing with grammar guidance that feels like coaching.</h1>
+            <p class="hero-text">
+              MasterWrite helps people who speak well but struggle to write with clean grammar,
+              clear punctuation, richer vocabulary, and stronger academic structure.
+            </p>
+            <div class="hero-actions">
+              <a class="button button-primary" href="#studio">Start Writing</a>
+              <a class="button button-secondary" href="#features">Explore Features</a>
+            </div>
+            <ul class="hero-points">
+              <li>Unlimited corrections every day</li>
+              <li>Writing modes for daily, academic, email, and creative work</li>
+              <li>Academic scoring, essay analysis, and printable PDF reports</li>
+            </ul>
+          </div>
+
+          <aside class="hero-panel">
+            <div class="hero-card floating-card">
+              <p class="panel-label">Live coaching snapshot</p>
+              <div class="mini-score">
+                <span>89</span>
+                <small>Academic score</small>
+              </div>
+              <ul>
+                <li>Fixed punctuation spacing</li>
+                <li>Improved sentence openings</li>
+                <li>Suggested stronger vocabulary</li>
+              </ul>
+            </div>
+            <div class="hero-card accent-card">
+              <p class="panel-label">Popular modes</p>
+              <div class="mode-pills">
+                <span>Essay</span>
+                <span>Email</span>
+                <span>Creative</span>
+                <span>Daily practice</span>
+              </div>
+            </div>
+          </aside>
+        </section>
+
+        <section class="stats-band" aria-label="Product highlights">
+          <article>
+            <strong>Unlimited</strong>
+            <span>Grammar corrections per day</span>
+          </article>
+          <article>
+            <strong>4 modes</strong>
+            <span>Context-aware writing support</span>
+          </article>
+          <article>
+            <strong>Printable</strong>
+            <span>PDF-friendly performance reports</span>
+          </article>
+          <article>
+            <strong>Instant</strong>
+            <span>Essay analysis and feedback cards</span>
+          </article>
+        </section>
+
+        <section class="section" id="features">
+          <div class="section-heading">
+            <p class="eyebrow">Core features</p>
+            <h2>Designed to teach, not just correct.</h2>
+            <p>
+              The app focuses on helping users understand what changed, why it changed, and how
+              to write stronger sentences next time.
+            </p>
+          </div>
+          <div class="feature-grid">
+            <article class="feature-card">
+              <h3>Grammar and punctuation repair</h3>
+              <p>
+                Detects common writing issues such as lowercase sentence starts, spacing mistakes,
+                repeated words, weak endings, and missing punctuation.
+              </p>
+            </article>
+            <article class="feature-card">
+              <h3>Advanced vocabulary suggestions</h3>
+              <p>
+                Offers stronger word choices based on the selected writing mode so users can sound
+                clearer, more academic, or more polished.
+              </p>
+            </article>
+            <article class="feature-card">
+              <h3>Essay analysis</h3>
+              <p>
+                Measures sentence count, average sentence length, reading time, lexical variety,
+                and paragraph structure to guide improvement.
+              </p>
+            </article>
+            <article class="feature-card">
+              <h3>Academic scoring</h3>
+              <p>
+                Generates an easy-to-understand performance score across clarity, punctuation,
+                structure, and vocabulary strength.
+              </p>
+            </article>
+          </div>
+        </section>
+
+        <section class="section studio-section" id="studio">
+          <div class="section-heading">
+            <p class="eyebrow">Interactive writing lab</p>
+            <h2>Paste a paragraph, essay, email, or draft and let MasterWrite coach it.</h2>
+            <p>
+              Choose a mode, analyze your writing, and review suggestions instantly. Use the
+              report button to save the results as PDF from your browser.
+            </p>
+          </div>
+
+          <div class="studio-layout">
+            <section class="editor-card">
+              <div class="control-row">
+                <label class="field">
+                  <span>Writing mode</span>
+                  <select id="mode-select">
+                    <option value="everyday">Everyday clarity</option>
+                    <option value="academic">Academic writing</option>
+                    <option value="email">Professional email</option>
+                    <option value="creative">Creative expression</option>
+                  </select>
+                </label>
+                <div class="mode-note" id="mode-note">
+                  Everyday mode focuses on readable grammar, punctuation, and sentence fluency.
+                </div>
+              </div>
+
+              <label class="field field-textarea" for="input-text">
+                <span>Your writing</span>
+                <textarea
+                  id="input-text"
+                  placeholder="Type or paste your paragraph here. MasterWrite will review grammar, punctuation, vocabulary, and overall writing quality."
+                ></textarea>
+              </label>
+
+              <div class="editor-footer">
+                <div class="live-meta">
+                  <span id="word-count">0 words</span>
+                  <span id="char-count">0 characters</span>
+                </div>
+                <div class="button-row">
+                  <button class="button button-primary" id="analyze-button" type="button">
+                    Analyze Writing
+                  </button>
+                  <button class="button button-secondary" id="sample-button" type="button">
+                    Load Sample
+                  </button>
+                  <button class="button button-ghost" id="clear-button" type="button">
+                    Clear
+                  </button>
+                </div>
+              </div>
+            </section>
+
+            <section class="results-card" id="reports">
+              <div class="results-header">
+                <div>
+                  <p class="eyebrow">Report</p>
+                  <h3>Performance summary</h3>
+                </div>
+                <button class="button button-secondary" id="pdf-button" type="button" disabled>
+                  Download PDF Report
+                </button>
+              </div>
+
+              <div class="score-shell">
+                <div class="score-ring" id="score-ring">
+                  <span id="score-value">--</span>
+                </div>
+                <div class="score-copy">
+                  <strong id="score-band">Run an analysis to see your score</strong>
+                  <p id="score-summary">
+                    Your report will highlight punctuation quality, grammar strength, vocabulary
+                    opportunities, and essay structure.
+                  </p>
+                </div>
+              </div>
+
+              <div class="results-grid">
+                <article class="result-panel">
+                  <h4>Corrected draft</h4>
+                  <p id="corrected-text" class="large-copy">
+                    Your corrected version will appear here after analysis.
+                  </p>
+                </article>
+
+                <article class="result-panel">
+                  <h4>Detected issues</h4>
+                  <ul id="issues-list" class="detail-list">
+                    <li>Submit writing to see grammar and punctuation findings.</li>
+                  </ul>
+                </article>
+
+                <article class="result-panel">
+                  <h4>Vocabulary upgrades</h4>
+                  <ul id="vocabulary-list" class="detail-list">
+                    <li>Mode-based vocabulary suggestions will appear here.</li>
+                  </ul>
+                </article>
+
+                <article class="result-panel">
+                  <h4>Essay analysis</h4>
+                  <dl id="analysis-list" class="analysis-list">
+                    <div>
+                      <dt>Words</dt>
+                      <dd>0</dd>
+                    </div>
+                    <div>
+                      <dt>Sentences</dt>
+                      <dd>0</dd>
+                    </div>
+                    <div>
+                      <dt>Average length</dt>
+                      <dd>0</dd>
+                    </div>
+                    <div>
+                      <dt>Reading time</dt>
+                      <dd>0 min</dd>
+                    </div>
+                    <div>
+                      <dt>Paragraphs</dt>
+                      <dd>0</dd>
+                    </div>
+                    <div>
+                      <dt>Lexical variety</dt>
+                      <dd>0</dd>
+                    </div>
+                  </dl>
+                </article>
+              </div>
+
+              <article class="result-panel guidance-panel">
+                <h4>Coaching tips</h4>
+                <ul id="tips-list" class="detail-list">
+                  <li>Use the sample button if you want to explore the report format first.</li>
+                </ul>
+              </article>
+            </section>
+          </div>
+        </section>
+
+        <section class="section history-section">
+          <div class="section-heading">
+            <p class="eyebrow">Practice memory</p>
+            <h2>Recent sessions are saved in your browser.</h2>
+            <p>
+              This helps learners compare drafts, watch their score improve, and continue writing
+              practice over time.
+            </p>
+          </div>
+          <div id="history-list" class="history-list">
+            <article class="history-card empty-state">
+              <strong>No sessions yet</strong>
+              <p>Analyze some writing and your recent reports will show up here.</p>
+            </article>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script src="./app.js"></script>
+  </body>
+</html>
